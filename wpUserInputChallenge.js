@@ -19,81 +19,70 @@ var nouns = ["dog", "Great Dane", "horse", "TV", "soup", "tree", "bumblebee"];
 var adjectives = ["sleepy", "pretty", "playful", "grumpy", "shiny", "old"];
 var verbs = ["run", "sleep", "walk", "gallop", "drive", "saunter"];
 
-var nounsUsed = [];
-var adjsUsed = [];
-var verbsUsed = [];
-
 var template = ["Come [VERB] at WALMART, where you`ll receive [ADJECTIVE] discounts on all of your favourite brand name [NOUN]s.",
-				"Our [ADJECTIVE] associates are there to [VERB] you 24 hours a day.",
-				"Here you will find [ADJECTIVE] prices on every [NOUN] you may want or need.",
-				"A [NOUN] for Mom, or a [NOUN] for Dad and all the latest electronics for the whole family.",
-				"So come on down to your [ADJECTIVE] [ADJECTIVE] WALMART where a [ADJECTIVE] [NOUN] comes first."]
-var loop1, loop2, loop3;
-var tempStory = [];
-var wordPuzzle = [];
+		"Our [ADJECTIVE] associates are there to [VERB] you 24 hours a day.",
+		"Here you will find [ADJECTIVE] prices on every [NOUN] you may want or need.",
+		"A [NOUN] for Mom, or a [NOUN] for Dad and all the latest [NOUN]s for the whole family.",
+		"So come on down to your [ADJECTIVE] [ADJECTIVE] WALMART where a [ADJECTIVE] [NOUN] comes first."];
 
-var rand = function(max) {
-  return(Math.floor(Math.random() * max) + 1);
-};
-
-var getWord = function(srcArr, usedArr) {
-  var wordIndex;
-  var wordToUse;
-  var ttlWords = srcArr.length;
-  var loop;
-
-  wordIndex = rand(ttlWords - 1);
-  wordToUse = srcArr[wordIndex];
-
-  usedArr.push(wordToUse);
-  for(loop = wordIndex; loop < (ttlWords - 1); loop++) {
-    srcArr[loop] = srcArr[loop + 1];
-  }
-  srcArr[loop] = null;
-  srcArr.length = loop;
-
-  return (wordToUse);
-}
-
-for(loop1 = 0; loop1 < template.length; loop1++)
+function substituteBlanks(wpTemp)
 {
-  tempStory = template[loop1].split(" ");  //;("/[\s.]+/");
+  var wpReturn;
+  var tempStory = [];
+  var sbLoop = 0;
+  var numWords;
+  var whichWord;
+  
+  tempStory = wpTemp.split(" ");
+  numWords = tempStory.length;
 
-  for(loop2 = 0; loop2 < tempStory.length; loop2++) 
+  for(sbLoop = 0; sbLoop < numWords; sbLoop++) 
   {
-      switch(tempStory[loop2]) 
-	  {
+    switch(tempStory[sbLoop]) 
+    {
         case "[VERB]":
-          console.log("\nGet a VERB!");
-          tempStory[loop2] = prompt("Please enter a verb.");
+          whichWord = "Please enter a verb.";
+          //tempStory[sbLoop] = prompt("Please enter a verb.", "");
           break;
         case "[VERB]ing":
-          console.log("\nGet a VERB!");
-          tempStory[loop2] = prompt("Please enter a verb ending in 'ing'.");
+          whichWord = "Please enter a verb ending in 'ing'.";
+          //tempStory[sbLoop] = prompt("Please enter a verb ending in 'ing'.", "");
           break;
         case "[NOUN]":
-          console.log("\nGet a NOUN!");
-          tempStory[loop2] = prompt("Please enter a noun.");
+          whichWord = "Please enter a noun.";
+          //tempStory[sbLoop] = prompt("Please enter a noun.", "");
           break;
         case "[NOUN]s":
-          console.log("\nGet a NOUN!");
-          tempStory[loop2] = prompt("Please enter a plural noun.");
+          whichWord = "Please enter a plural noun.";
+          //tempStory[sbLoop] = prompt("Please enter a plural noun.", "");
           break;
         case "[NOUN]s.":
-          console.log("\nGet a NOUN!");
-          tempStory[loop2] = prompt("Please enter a plural noun.") + ".";
+          whichWord = "Please enter a plural noun.";
+          //tempStory[sbLoop] = prompt("Please enter a plural noun.", "") + ".";
           break;
         case "[ADJECTIVE]":
-          console.log("\nGet a ADJECTIVE!");
-          tempStory[loop2] = prompt("Please enter an adjective.");
+          whichWord = "Please enter an adjective.";
+          //tempStory[sbLoop] = prompt("Please enter an adjective.", "");
           break;
-        default:
-          break;
-      }
+      default:
+        continue;
+    }
+    tempStory[sbLoop] = prompt(whichWord, "");
   }
-  wordPuzzle[loop1] = tempStory.join(" "); + "\n";
+  
+  wpReturn = tempStory.join(" "); 
+  return(wpReturn);
 }
 
-for(loop3 = 0; loop3 < wordPuzzle.length; loop3++){
-  console.log(wordPuzzle[loop3]);
-  }
+function WordPuzzle()
+{
+  var wpStory = [];
+  
+  template.forEach(function (item, index, array) {
+    wpStory[index] = substituteBlanks(item);
+    console.log(wpStory[index]);
+  });
+  
+}
+
+WordPuzzle();
